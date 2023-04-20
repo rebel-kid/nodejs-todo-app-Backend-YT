@@ -10,7 +10,8 @@ config({
 
 //middlewares
 app.use(express.json());
-app.use("/users",userRouter);
+//routes
+app.use("/api/v1/users",userRouter);
 
 
 app.get("/", (req, res) => {

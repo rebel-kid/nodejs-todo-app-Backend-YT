@@ -1,69 +1,37 @@
 import { User } from "../models/user.js";
-
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken"
 export const getAllUsers = async (req, res) => {
-    const users = await User.find({})
-    console.log(req.query);
-    const keyword = req.query.keyword;
-    console.log(keyword);
-    res.json({
-        success: true,
-        users: users
-    });
+    
 }
 
 export const registerUser = async (req, res) => {
+const {name, email, password} = req.body;
+let user = await User.findOne({email});
+if(user) return res.status(403).json({
+    success: false,
+    message: "User Already Exists"
+});
+//create User if not exits
+const hashedPassword = await bcrypt.hash(password, 10);
+user = await  User.create({name, email, password: hashedPassword});
 
-    //get data from forms
-    const { name, email, password } = req.body;
+//send cookies, generate token
+const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET)
 
-    await User.create({
-        name,
-        email,
-        password
-    })
-    res.status(201).cookie("TempCookie", "LoL").json({
-        success: true,
-        message: "Registered Successfully"
-    });
+res.status(201).cookie("token",token,{
+    httpOnly: true,
+    maxAge: 1000 * 10, 
+}).json({
+    success: true,
+    message: "Registered Successfully"
+})
 }
+//we can also send cookies to redirect to login after successful registration -> user cookies -> will use token -> JWT
+export const loginUser = async (req,res) => {
 
-export const specialFunction = (req, res) => {
-    res.json({
-        success: true,
-        message: "Just Joking"
-    })
 }
 
 export const getUserByID = async (req, res) => {
-    // const {id} = req.body;//tried req.query also, doing dynamic
-    const { id } = req.params;
-    const user = await User.findById(id);
-    // console.log(req.params);
-    res.json({
-        success: true,
-        user
-    })
-
-}
-
-export const updateUser = async (req, res) => {
-    // const {id} = req.body;//tried req.query also, doing dynamic
-    const { id } = req.params;
-    const user = await User.findById(id);
-    // console.log(req.params);
-    res.json({
-        success: true,
-        message: "Updated Successfully"
-    })
-
-}
-
-export const deleteUser = async (req, res) => {
-    const { id } = req.params;
-    const user = await User.findById(id);
-    res.json({
-        success: true,
-        message: "Deleted Successfully"
-    })
-
+  
 }
