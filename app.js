@@ -36,9 +36,11 @@ app.use(cors({
     methods: ["GET", "POST", "PUT", "DELETE"], //which methods will be allowed
     credentials: true, //credentials to be saved on frontend, for saving cookies and authentication
     // allowedHeaders: ['Content-Type'],
-    // he default response headers always exposed for CORS requests are: Cache-Control. Content-Language. Content-Type.
+    // The default response headers always exposed for CORS requests are: Cache-Control. Content-Language. Content-Type.
+    //so AllowedHeaders, is optional if you use CORS -> as CORS give by default, but in Node, you have to give
 }))
 
+//IMP -> Wasted 12 hours, because of this -> middlewares- use middleware before routes
 //routes
 app.use("/api/v1/users",userRouter);
 app.use("/api/v1/tasks",taskRouter);
