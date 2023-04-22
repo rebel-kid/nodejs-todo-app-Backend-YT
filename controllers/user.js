@@ -5,7 +5,7 @@ import {sendCookie} from "../utils/features.js";
     //can create for specific Admin view, but not needed as of now
 // }
 
-export const registerUser = async (req, res) => {
+export const registerUser = async (req, res,next) => {
 const {name, email, password} = req.body;
 let user = await User.findOne({email});
 if(user) return next(new ErrorHandler("User Already Exists",403)); 
@@ -18,7 +18,7 @@ sendCookie(user, res, "Registered Successfully", 201);
 }
 //we can also send cookies to redirect to login after successful registration -> user cookies -> will use token -> JWT
 
-export const loginUser = async (req,res) => {
+export const loginUser = async (req,res,next) => {
 try {
     const {email, password} = req.body;
 const user = await User.findOne({email}).select("+password");
@@ -38,7 +38,7 @@ if(!isMatch) return next(new ErrorHandler("Invalid Email or Password",400));
 //everything match, login user
 sendCookie(user, res, `Welcome back ${user.name}`, 200);
 } catch (error) {
-    next(error)
+    next(error);
 }
 }
 
