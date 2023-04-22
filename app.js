@@ -36,8 +36,8 @@ app.use(cors({
     // origin: ["*"], //checking cors workaround
     // methods: ["GET", "POST", "PUT", "DELETE"], //which methods will be allowed
     // credentials: true, //credentials to be saved on frontend, for saving cookies and authentication
-    // origin: 'http://127.0.0.1:5173',
-    origin: ['process.env.FRONTEND_URL'],
+    origin: ['http://127.0.0.1:5173'],
+    // origin: ['process.env.FRONTEND_URL'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type'],
     credentials: true,
