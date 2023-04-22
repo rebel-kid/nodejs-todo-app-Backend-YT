@@ -19,10 +19,10 @@ app.use(cookieParser()); //need cookie parser to fetch user id from token genera
 //adding workaround for cors issue
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5173');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE,OPTIONS');
-    // res.setHeader('Access-Control-Allow-Headers', ' Content-Type, ');
-     // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    //needed to allow headers: content-type as when we want to exchange type json data -> "Content-Type": "application/json" it is must for server to answer in preflight request
+    //make below one true if you need to store cookies with your request
     res.setHeader('Access-Control-Allow-Credentials', true);
     // Pass to next layer of middleware
     next();
