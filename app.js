@@ -18,24 +18,24 @@ app.use(cookieParser()); //need cookie parser to fetch user id from token genera
 //routes
 app.use("/api/v1/users",userRouter);
 app.use("/api/v1/tasks",taskRouter);
-app.use(cors({
-    // origin: [process.env.FRONTEND_URL], //origin means from which domain, all origin requests are allowed
-    origin: ["*"], //checking cors workaround
-    methods: ["GET", "POST", "PUT", "DELETE"], //which methods will be allowed
-    credentials: true, //credentials to be saved on frontend, for saving cookies and authentication
-}))
+// app.use(cors({
+//     // origin: [process.env.FRONTEND_URL], //origin means from which domain, all origin requests are allowed
+//     origin: ["*"], //checking cors workaround
+//     methods: ["GET", "POST", "PUT", "DELETE"], //which methods will be allowed
+//     credentials: true, //credentials to be saved on frontend, for saving cookies and authentication
+// }))
 
 app.get("/", (req, res) => {
     res.send("Nice")
     // console.log(process.env.FRONTEND_URL);
 })
 //adding workaround for cors issue
-// app.use((req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', '*');
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-//     next();
-//   });
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+  });
 
 
 //MIDDLEWARE FOR ERROR
