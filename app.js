@@ -29,9 +29,7 @@ app.use(cookieParser()); //need cookie parser to fetch user id from token genera
 //     // Pass to next layer of middleware
 //     next();
 //   });
-//use middleware before routes
-app.use("/api/v1/users",userRouter);
-app.use("/api/v1/tasks",taskRouter);
+
 app.use(cors({
     // origin: [process.env.FRONTEND_URL], //origin means from which domain, all origin requests are allowed
     // origin: ["*"], //checking cors workaround
@@ -43,6 +41,10 @@ app.use(cors({
     allowedHeaders: ['Content-Type'],
     credentials: true,
 }))
+
+//use middleware before routes
+app.use("/api/v1/users",userRouter);
+app.use("/api/v1/tasks",taskRouter);
 
 app.get("/", (req, res) => {
     res.send("Nice")
