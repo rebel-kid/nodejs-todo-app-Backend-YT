@@ -12,11 +12,12 @@ config({
     path: "./data/config.env",
 })
 
-//middlewares
+//middlewares- use middleware before routes
 app.use(express.json());
 app.use(cookieParser()); //need cookie parser to fetch user id from token generated, as user will be logged in, cookie will be there
-//routes
-//adding workaround for cors issue
+
+//adding workaround for CORS in plain JS, can use CORS middleware for the same, but use before routes calling
+
 // app.use((req, res, next) => {
 //     res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL);
 //     // res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5173');
@@ -31,18 +32,14 @@ app.use(cookieParser()); //need cookie parser to fetch user id from token genera
 //   });
 
 app.use(cors({
-    // origin: [process.env.FRONTEND_URL], //origin means from which domain, all origin requests are allowed
-    // origin: ["*"], //checking cors workaround
-    // methods: ["GET", "POST", "PUT", "DELETE"], //which methods will be allowed
-    // credentials: true, //credentials to be saved on frontend, for saving cookies and authentication
-    // origin: process.env.FRONTEND_URL,
-    origin: ['process.env.FRONTEND_URL'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type'],
-    credentials: true,
+    origin: [process.env.FRONTEND_URL], //origin means from which domain, all origin requests are allowed
+    methods: ["GET", "POST", "PUT", "DELETE"], //which methods will be allowed
+    credentials: true, //credentials to be saved on frontend, for saving cookies and authentication
+    // allowedHeaders: ['Content-Type'],
+    // he default response headers always exposed for CORS requests are: Cache-Control. Content-Language. Content-Type.
 }))
 
-//use middleware before routes
+//routes
 app.use("/api/v1/users",userRouter);
 app.use("/api/v1/tasks",taskRouter);
 
